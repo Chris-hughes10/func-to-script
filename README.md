@@ -90,6 +90,6 @@ the docstring will be ignored.
 
 ## Aren't there a bunch of libraries that do this already
 
-There are, and most of those contain more functionality han is contained here! However, most of these tend to require
+There are, and most of those contain more functionality than is contained here! However, most of these tend to require
 interacting with custom objects or adding additional boilerplate; `func-to-script` is able to avoid this for simple
 use cases.
