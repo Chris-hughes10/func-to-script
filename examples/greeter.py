@@ -1,4 +1,4 @@
-from say_hello_script import say_hello
+from examples.say_hello_script import say_hello
 
 
 def main():

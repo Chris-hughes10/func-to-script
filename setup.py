@@ -11,9 +11,17 @@ import versioneer
 
 # Package meta-data.
 NAME = "func-to-script"
-DESCRIPTION = (
-    ""
-)
+DESCRIPTION = """
+func-to-script` is a lightweight and convenient tool which can be used to turn a Python function into a command line
+ script, with minimal boilerplate!
+
+As `func-to-script` is only a thin wrapper around `argparse`, it is incredibly lightweight there are no
+ additional dependencies required!
+ 
+`func-to-script` is designed to be used in simple cases, so offers a streamlined feature set. 
+For more complex scenarios, it is recommended to use `argparse` directly.
+"""
+
 URL = "https://github.com/Chris-hughes10/func-to-script"
 EMAIL = "31883449+Chris-hughes10@users.noreply.github.com"
 AUTHOR = "Chris Hughes"
