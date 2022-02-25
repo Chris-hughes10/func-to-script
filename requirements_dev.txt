@@ -1,1 +1,3 @@
+black
+versioneer==0.21
 pytest
