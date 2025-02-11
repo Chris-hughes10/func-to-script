@@ -4,7 +4,6 @@
 import io
 import os
 
-from pkg_resources import Requirement
 from setuptools import find_packages, setup
 
 import versioneer
@@ -25,18 +24,13 @@ For more complex scenarios, it is recommended to use `argparse` directly.
 URL = "https://github.com/Chris-hughes10/func-to-script"
 EMAIL = "31883449+Chris-hughes10@users.noreply.github.com"
 AUTHOR = "Chris Hughes"
-REQUIRES_PYTHON = ">=3.7.0"
+REQUIRES_PYTHON = ">=3.8.0"
 VERSION = versioneer.get_version()
 
 FILEPATH = os.path.abspath(os.path.dirname(__file__))
-REQUIRED = []
 
 with open("requirements.txt", "r") as f:
-    for line in f.readlines():
-        try:
-            REQUIRED.append(str(Requirement.parse(line)))
-        except ValueError:
-            pass
+    REQUIRED = [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
 # Import the README and use it as the long-description.
 # Note: this will only work if 'README.md' is present in your MANIFEST.in file!
@@ -69,6 +63,11 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: Implementation :: CPython",
     ],
 )
