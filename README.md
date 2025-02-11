@@ -78,6 +78,38 @@ if __name__ == "__main__":
 
 ```
 
+### Using YAML Configuration Files
+For more complex applications, configuration can be loaded from YAML files. 
+`func-to-script` provides a simple way to convert YAML configs into accessible Python objects:
+
+```python
+# config.yaml
+data:
+  num_classes: 80
+  max_instances: 65
+  image_size: 640
+
+# train_script.py
+from func_to_script import load_config_from_yaml, script
+
+@script
+def train(
+    config_file: str = "config.yaml",
+):
+    """
+    Train a model using parameters from a config file
+    :param config_file: path to YAML configuration file
+    """
+    config = load_config_from_yaml(config_file)
+    # Access config values using dot notation
+    print(config.data.num_classes)  # prints: 80
+```
+
+We can now call this like so:
+```
+python train_script.py --config_file my_config.yaml
+```
+
 ### Constraints
  
 - Only four types are supported for script level arguments: `str`, `int`, `float`, `bool`
