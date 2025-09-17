@@ -14,7 +14,10 @@ from test.scripts.script_with_defaults import (
 
 
 def execute_command(command):
-    output = subprocess.run(command, stdout=subprocess.PIPE).stdout.decode("utf-8")
+    # Run commands from the test directory so scripts/ is accessible
+    import os
+    test_dir = os.path.dirname(__file__)
+    output = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=test_dir).stdout.decode("utf-8")
     output_dict = ast.literal_eval(output)
     return output_dict
 
@@ -127,20 +130,24 @@ def test_can_override_arguments_as_function_kwargs():
 
 
 def test_no_type_hint_raises_exception():
+    import os
+    test_dir = os.path.dirname(__file__)
     command = f"python scripts/script_with_missing_types.py"
 
     output = subprocess.run(
-        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=test_dir
     ).stderr.decode("utf-8")
 
     assert "TypeError" in output
 
 
 def test_invalid_type_raises_exception():
+    import os
+    test_dir = os.path.dirname(__file__)
     command = f"python scripts/script_with_incorrect_type.py"
 
     output = subprocess.run(
-        command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, cwd=test_dir
     ).stderr.decode("utf-8")
 
     assert "ValueError" in output
