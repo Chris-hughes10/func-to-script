@@ -101,8 +101,18 @@ def train(
     :param config_file: path to YAML configuration file
     """
     config = load_config_from_yaml(config_file)
+
     # Access config values using dot notation
     print(config.data.num_classes)  # prints: 80
+
+    # Or use dictionary-style access
+    print(config["data"]["num_classes"])  # prints: 80
+
+    # Mix both styles as needed
+    print(config.data["max_instances"])  # prints: 65
+
+    # Use .get() for safe access with defaults
+    batch_size = config.get("training", {}).get("batch_size", 32)
 ```
 
 We can now call this like so:
