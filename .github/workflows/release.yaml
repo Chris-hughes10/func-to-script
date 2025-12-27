@@ -1,37 +1,98 @@
-name: Build distribution
+name: Build and publish
 
 on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: "ubuntu-latest"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v2
-
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v1
+        uses: actions/checkout@v4
         with:
-          python-version: 3.12
+          fetch-depth: 0  # Fetch all history for setuptools_scm
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]"
+
+      - name: Run tests
+        run: pytest
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for setuptools_scm
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Install build dependencies
-        run: python -m pip install build wheel setuptools
+        run: python -m pip install --upgrade build
 
       - name: Build distributions
-        shell: bash -l {0}
-        run: python setup.py sdist bdist_wheel
+        run: python -m build
 
-      - name: Publish distribution 📦 to Test PyPI
-        if: github.repository == 'Chris-hughes10/func-to-script' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-        uses: pypa/gh-action-pypi-publish@master
+      - name: Upload distributions
+        uses: actions/upload-artifact@v4
         with:
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          repository_url: https://test.pypi.org/legacy/
+          name: dist
+          path: dist/
 
-      - name: Publish package to PyPI
-        if: github.repository == 'Chris-hughes10/func-to-script' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-        uses: pypa/gh-action-pypi-publish@master
+  publish-testpypi:
+    needs: build
+    if: github.repository == 'Chris-hughes10/func-to-script' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/func-to-script
+    permissions:
+      id-token: write  # Required for trusted publishing
+
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
         with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          name: dist
+          path: dist/
+
+      - name: Publish to Test PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+
+  publish-pypi:
+    needs: build
+    if: github.repository == 'Chris-hughes10/func-to-script' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/func-to-script
+    permissions:
+      id-token: write  # Required for trusted publishing
+
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

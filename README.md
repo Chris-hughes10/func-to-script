@@ -3,10 +3,10 @@
 `func-to-script` is a lightweight and convenient tool which can be used to turn a Python function into a command line
  script, with minimal boilerplate!
 
-As `func-to-script` is only a thin wrapper around `argparse`, it is incredibly lightweight there are no
- additional dependencies required!
- 
-`func-to-script` is designed to be used in simple cases, so offers a streamlined feature set. 
+As `func-to-script` is a thin wrapper around `argparse`, it is incredibly lightweight with minimal dependencies
+(only PyYAML for configuration file support).
+
+`func-to-script` is designed to be used in simple cases, so offers a streamlined feature set.
 For more complex scenarios, it is recommended to use `argparse` directly.
 
 ## Installation
