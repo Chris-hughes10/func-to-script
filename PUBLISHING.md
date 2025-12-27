@@ -92,7 +92,7 @@ Then optionally create a GitHub Release from the tag afterwards for release note
 
 Once you publish a GitHub Release (or push a tag), GitHub Actions automatically:
 
-1. **Test Job**: Runs tests on Python 3.8, 3.9, 3.10, 3.11, and 3.12
+1. **Test Job**: Runs tests on Python 3.9, 3.10, 3.11, and 3.12
 2. **Build Job**: Builds source distribution (`.tar.gz`) and wheel (`.whl`)
 3. **Publish to Test PyPI**: Uploads to https://test.pypi.org/
 4. **Publish to PyPI**: Uploads to https://pypi.org/

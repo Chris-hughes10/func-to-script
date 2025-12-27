@@ -1,11 +1,7 @@
 from func_to_script.core import script
 from func_to_script.config_loader import load_config_from_yaml
 
-try:
-    from importlib.metadata import version, PackageNotFoundError
-except ImportError:
-    # Python < 3.8
-    from importlib_metadata import version, PackageNotFoundError
+from importlib.metadata import version, PackageNotFoundError
 
 try:
     __version__ = version("func-to-script")
