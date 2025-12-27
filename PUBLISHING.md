@@ -57,9 +57,26 @@ pytest
 black func_to_script/ test/
 ```
 
-### 2. Create and Push a Git Tag
+### 2. Create a GitHub Release (Recommended)
 
-Versions are automatically determined from git tags using `setuptools_scm`. To create a new release:
+The easiest way to publish is through the GitHub web interface:
+
+1. Go to https://github.com/Chris-hughes10/func-to-script/releases
+2. Click **"Draft a new release"**
+3. Click **"Choose a tag"** and type a new tag name (e.g., `v1.2.3`)
+4. Select **"Create new tag on publish"**
+5. Fill in the release title (e.g., `v1.2.3` or `Release 1.2.3`)
+6. Add release notes describing what changed
+7. Click **"Publish release"**
+
+**Important**:
+- Use semantic versioning: `vMAJOR.MINOR.PATCH` (e.g., `v1.2.3`)
+- The `v` prefix is recommended but optional
+- The version in the built package will be `1.2.3` (without the `v`)
+
+### Alternative: Command-Line Tag Publishing
+
+You can also create and push tags directly from the command line:
 
 ```bash
 # Create a new tag (e.g., for version 1.2.3)
@@ -69,14 +86,11 @@ git tag v1.2.3
 git push origin v1.2.3
 ```
 
-**Important**:
-- Use semantic versioning: `vMAJOR.MINOR.PATCH` (e.g., `v1.2.3`)
-- The `v` prefix is recommended but optional
-- The version in the built package will be `1.2.3` (without the `v`)
+Then optionally create a GitHub Release from the tag afterwards for release notes.
 
 ### 3. Automated Publishing
 
-Once you push a tag, GitHub Actions automatically:
+Once you publish a GitHub Release (or push a tag), GitHub Actions automatically:
 
 1. **Test Job**: Runs tests on Python 3.8, 3.9, 3.10, 3.11, and 3.12
 2. **Build Job**: Builds source distribution (`.tar.gz`) and wheel (`.whl`)
