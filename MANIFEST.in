@@ -1,4 +1,0 @@
-include LICENSE.txt
-include versioneer.py
-include requirements_dev.txt
-include func_to_script/_version.py

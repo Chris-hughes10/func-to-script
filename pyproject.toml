@@ -1,3 +1,44 @@
 [build-system]
-requires = ["setuptools>=64.0", "wheel", "versioneer"]
+requires = ["setuptools>=64.0", "setuptools_scm[toml]>=8.0"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "func-to-script"
+description = "A lightweight tool to turn Python functions into command line scripts with minimal boilerplate"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+    {name = "Chris Hughes", email = "31883449+Chris-hughes10@users.noreply.github.com"}
+]
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+]
+dependencies = [
+    "PyYAML>=5.1",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/Chris-hughes10/func-to-script"
+Repository = "https://github.com/Chris-hughes10/func-to-script"
+Issues = "https://github.com/Chris-hughes10/func-to-script/issues"
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "pytest",
+    "build",
+]
+
+[tool.setuptools]
+packages = ["func_to_script"]
+
+[tool.setuptools_scm]
+version_file = "func_to_script/_version.py"
